@@ -1,4 +1,5 @@
 ﻿using AccesoDatos.ClassLibrary;
+using Logica.ClassLibrary;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,10 +30,10 @@ namespace usuarios
                 string correo = txtCorreo.Text.TrimStart().TrimEnd();
                 string clave = txtClave.Text;
 
-                if (string.IsNullOrEmpty(correo) && !string.IsNullOrEmpty(clave))
+           if(!string.IsNullOrEmpty(correo) && !string.IsNullOrEmpty(clave))
                 {
                     Usuario usuario = new Usuario();
-                    usuario = Logica.ClassLibrary.LogicaUsuario.getUserXLogin(correo, clave);
+                    usuario = LogicaUsuario.getUserXLogin(correo, clave);
 
                     if (usuario != null)
                     {
