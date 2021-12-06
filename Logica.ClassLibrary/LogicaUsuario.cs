@@ -11,56 +11,137 @@ namespace Logica.ClassLibrary
     public class LogicaUsuario
     {
         private static DcMatriculaDataContext dc = new DcMatriculaDataContext();
+
         public static List<Usuario> getAllaUsers()
         {
             try
             {
-                var lista = dc.Usuario.Where(data => data.usu_status == 'A');
+                var lista = dc.Usuario.Where(data => data.usu_status == 'A')
+                                      .OrderBy(ord => ord.usu_apellidos);
+
                 return lista.ToList();
             }
             catch (Exception ex)
             {
-
-                throw new ArgumentException("Error al obtener usuario" + ex.Message);
+                throw new ArgumentException("Error al obtener Usuario " + ex.Message);
             }
-
-
         }
-        public static Usuario getAllaUsersXid(int idUsuario)
+
+
+        public static List<Usuario> getUsersXCodigo(int codigo)
         {
             try
             {
-                var usuario = dc.Usuario.Where(data => data.usu_status == 'A'
-                && data.usu_id.Equals(idUsuario)).FirstOrDefault();
-                return usuario;
+                var lista = dc.Usuario.Where(data => data.usu_status == 'A'
+                                             && data.usu_id.Equals(codigo))
+                                      .OrderBy(ord => ord.usu_apellidos);
+
+                return lista.ToList();
             }
             catch (Exception ex)
             {
-
-                throw new ArgumentException("Error al obtener usuario" + ex.Message);
+                throw new ArgumentException("Error al obtener Usuario " + ex.Message);
             }
-
-
         }
+
+        public static List<Usuario> getUsersXApellidos(string apellidos)
+        {
+            try
+            {
+                var lista = dc.Usuario.Where(data => data.usu_status == 'A'
+                                             && data.usu_apellidos.StartsWith(apellidos))
+                                      .OrderBy(ord => ord.usu_apellidos);
+
+                return lista.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Error al obtener Usuario " + ex.Message);
+            }
+        }
+
+        public static List<Usuario> getUsersXNombres(string correo)
+        {
+            try
+            {
+                var lista = dc.Usuario.Where(data => data.usu_status == 'A'
+                                             && data.usu_nombres.StartsWith(correo))
+                                      .OrderBy(ord => ord.usu_apellidos);
+
+                return lista.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Error al obtener Usuario " + ex.Message);
+            }
+        }
+
+        public static List<Usuario> getUsersXCorreo(string correo)
+        {
+            try
+            {
+                var lista = dc.Usuario.Where(data => data.usu_status == 'A'
+                                             && data.usu_correo.StartsWith(correo))
+                                      .OrderBy(ord => ord.usu_apellidos);
+
+                return lista.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Error al obtener Usuario " + ex.Message);
+            }
+        }
+
+        public static List<Usuario> getUsersXRol(string rol)
+        {
+            try
+            {
+                var lista = dc.Usuario.Where(data => data.usu_status == 'A'
+                                             && data.Rol.rol_descripcion.StartsWith(rol))
+                                      .OrderBy(ord => ord.usu_apellidos);
+
+                return lista.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Error al obtener Usuario " + ex.Message);
+            }
+        }
+
+
+        public static Usuario getUserXId(int idUsuario)
+        {
+            try
+            {
+                var Usuario = dc.Usuario.Where(data => data.usu_status == 'A'
+                                               && data.usu_id.Equals(idUsuario)).FirstOrDefault();
+
+                return Usuario;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Error al obtener Usuario " + ex.Message);
+            }
+        }
+
         public static Usuario getUserXLogin(string email, string clave)
         {
             try
             {
-                var usuario = dc.Usuario.Where(data => data.usu_status == 'A'
-                && data.usu_correo.Equals(email)
-                && data.usu_password.Equals(clave)
-                ).FirstOrDefault();
+                var Usuario = dc.Usuario.Where(data => data.usu_status == 'A'
+                                               && data.usu_correo.Equals(email)
+                                               && data.usu_password.Equals(clave)
+                                               ).FirstOrDefault();
 
-                return usuario;
+                return Usuario;
             }
             catch (Exception ex)
             {
-
-                throw new ArgumentException("Error al obtener usuario" + ex.Message);
+                throw new ArgumentException("Error al obtener Usuario " + ex.Message);
             }
-
-
         }
+
+
         public static bool saveUser(Usuario dataUsuario)
         {
             try
@@ -69,65 +150,95 @@ namespace Logica.ClassLibrary
                 dataUsuario.usu_add = DateTime.Now;
                 dataUsuario.usu_status = 'A';
 
-
                 dc.Usuario.InsertOnSubmit(dataUsuario);
-                //commit a la base
+                //Commit a la base
                 dc.SubmitChanges();
 
                 result = true;
-
                 return result;
+
             }
             catch (Exception ex)
             {
-
-                throw new ArgumentException("Error al guardar" + ex.Message);
+                throw new ArgumentException("Error al guardar Usuario " + ex.Message);
             }
-
-
         }
+
         public static bool updateUser(Usuario dataUsuario)
         {
             try
             {
                 bool result = false;
-                dc.Usuario.InsertOnSubmit(dataUsuario);
-                //commit a la base
+                //Commit a la base
                 dc.SubmitChanges();
 
                 result = true;
-
                 return result;
+
             }
             catch (Exception ex)
             {
-
-                throw new ArgumentException("Error al modificar" + ex.Message);
+                throw new ArgumentException("Error al modificar Usuario " + ex.Message);
             }
-
-
         }
-        public static bool detleteUser(Usuario dataUsuario)
+
+        public static bool updateUser2(Usuario dataUsuario)
         {
             try
             {
                 bool result = false;
-                dataUsuario.usu_status = 'I';
-                //commit a la base
+                dataUsuario.usu_update = DateTime.Now;
+
+                dc.ExecuteCommand("UPDATE [dbo].[Usuario] SET [usu_correo] = {0}" +
+                                 // ",[usu_apellidos] = {1}" +
+                                  ",[usu_apellidos] = {1}" +
+                                  ",[usu_nombres] = {2}" +
+                                  ",[usu_update] = {3}" +
+                                  ",[rol_id] = {4} " +
+                                  "WHERE [usu_id] = {5}", new object[] {
+                                  dataUsuario.usu_correo,
+                                 // dataUsuario.usu_password,
+                                  dataUsuario.usu_apellidos,
+                                  dataUsuario.usu_nombres,
+                                  dataUsuario.usu_update,
+                                  dataUsuario.rol_id,
+                                  dataUsuario.usu_id
+                                  });
+
+                //Envia la consulta al ORM hacia la base de datos, actualizacion
+                dc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, dc.Usuario);
+                //Commit a la base
                 dc.SubmitChanges();
 
-
                 result = true;
-
                 return result;
+
             }
             catch (Exception ex)
             {
-
-                throw new ArgumentException("Error al eliminar" + ex.Message);
+                throw new ArgumentException("Error al modificar Usuario " + ex.Message);
             }
-
-
         }
+
+        public static bool deleteteUser(Usuario dataUsuario)
+        {
+            try
+            {
+                bool result = false;
+
+                dataUsuario.usu_status = 'I';
+                //Commit a la base
+                dc.SubmitChanges();
+
+                result = true;
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Error al eliminar Usuario " + ex.Message);
+            }
+        }
+
     }
 }

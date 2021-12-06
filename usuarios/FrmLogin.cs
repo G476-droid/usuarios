@@ -23,6 +23,7 @@ namespace usuarios
         {
             login();
         }
+
         private void login()
         {
             try
@@ -30,39 +31,54 @@ namespace usuarios
                 string correo = txtCorreo.Text.TrimStart().TrimEnd();
                 string clave = txtClave.Text;
 
-           if(!string.IsNullOrEmpty(correo) && !string.IsNullOrEmpty(clave))
+                //string ecriptar = logica.encriptar(clave);
+
+                if (!string.IsNullOrEmpty(correo) && !string.IsNullOrEmpty(clave))
                 {
                     Usuario usuario = new Usuario();
-                    usuario = LogicaUsuario.getUserXLogin(correo, clave);
-
+                    usuario = LogicaUsuario.getUserXLogin(correo, Logica.ClassLibrary.Utilidades.Encriptar.GetMD5(clave));
                     if (usuario != null)
                     {
-                        var dataUser = usuario.usu_correo + " " + usuario.usu_apellidos;
-                        //interpolation
-                        var dataUser2 = $"{usuario.usu_correo} {usuario.usu_apellidos}";
+                        var dataUser = usuario.usu_nombres + " " + usuario.usu_apellidos;
+                        //Interpolation
+                        var dataUser2 = $"{ usuario.usu_nombres}  { usuario.usu_apellidos}";
 
-                        MessageBox.Show("Bienvenido al Sistema\n Rol:  "
-                            +usuario.Rol.rol_descripcion
-                            + "\n Usuario: ", "Sistema de Matriculacion Vehicular"
-                            , MessageBoxButtons.OK
-                            , MessageBoxIcon.Information);
-                        Form1 form1 = new Form1();
-                        form1.Show();
-                        this.Hide();
-                        
+                        MessageBox.Show("Bienvenido al sistema\n Rol:" + usuario.Rol.rol_descripcion
+                        + "\nUsuario: " + dataUser2, "Sistema de Matriculación Vehicular", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        //Form1 form1 = new Form1();
+                        //form1.Show();
+
+
+                        Formularios.FrmPrincipal frmPrincipal = new Formularios.FrmPrincipal();
+                        frmPrincipal.Show();
+                        //this.Hide();
+
+
                     }
+                    else
+                    {
 
+                        MessageBox.Show("Error en usuario o clave", "Sistema de Matriculación Vehicular", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                else
-                {
-                    MessageBox.Show("Error en usuario o clave", "Sistema de Matriculacion Vehicular", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                //else
+                //{
+                   // MessageBox.Show("Error en usuario o clave", "Sistema de Matriculación Vehicular", MessageBoxButtons.OK, MessageBoxIcon.Error);
+               // }
             }
             catch (Exception)
             {
 
                 throw;
             }
+
+
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
