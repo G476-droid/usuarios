@@ -563,6 +563,8 @@ namespace AccesoDatos.ClassLibrary
 		
 		private EntityRef<Color> _Color;
 		
+		private EntityRef<Color> _Color1;
+		
 		private EntityRef<Modelo> _Modelo;
 		
 		private EntityRef<Pais> _Pais;
@@ -631,6 +633,7 @@ namespace AccesoDatos.ClassLibrary
 		{
 			this._Clase = default(EntityRef<Clase>);
 			this._Color = default(EntityRef<Color>);
+			this._Color1 = default(EntityRef<Color>);
 			this._Modelo = default(EntityRef<Modelo>);
 			this._Pais = default(EntityRef<Pais>);
 			this._Pais1 = default(EntityRef<Pais>);
@@ -1125,7 +1128,7 @@ namespace AccesoDatos.ClassLibrary
 			{
 				if ((this._Col_id != value))
 				{
-					if (this._Color.HasLoadedOrAssignedValue)
+					if ((this._Color.HasLoadedOrAssignedValue || this._Color1.HasLoadedOrAssignedValue))
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -1226,6 +1229,40 @@ namespace AccesoDatos.ClassLibrary
 						this._Col_id = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("Color");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Color_Vehiculo1", Storage="_Color1", ThisKey="Col_id", OtherKey="col_id", IsForeignKey=true)]
+		public Color Color1
+		{
+			get
+			{
+				return this._Color1.Entity;
+			}
+			set
+			{
+				Color previousValue = this._Color1.Entity;
+				if (((previousValue != value) 
+							|| (this._Color1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Color1.Entity = null;
+						previousValue.Vehiculo1.Remove(this);
+					}
+					this._Color1.Entity = value;
+					if ((value != null))
+					{
+						value.Vehiculo1.Add(this);
+						this._Col_id = value.col_id;
+					}
+					else
+					{
+						this._Col_id = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Color1");
 				}
 			}
 		}
@@ -1617,6 +1654,8 @@ namespace AccesoDatos.ClassLibrary
 		
 		private EntitySet<Vehiculo> _Vehiculo;
 		
+		private EntitySet<Vehiculo> _Vehiculo1;
+		
     #region Definiciones de métodos de extensibilidad
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -1638,6 +1677,7 @@ namespace AccesoDatos.ClassLibrary
 		public Color()
 		{
 			this._Vehiculo = new EntitySet<Vehiculo>(new Action<Vehiculo>(this.attach_Vehiculo), new Action<Vehiculo>(this.detach_Vehiculo));
+			this._Vehiculo1 = new EntitySet<Vehiculo>(new Action<Vehiculo>(this.attach_Vehiculo1), new Action<Vehiculo>(this.detach_Vehiculo1));
 			OnCreated();
 		}
 		
@@ -1774,6 +1814,19 @@ namespace AccesoDatos.ClassLibrary
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Color_Vehiculo1", Storage="_Vehiculo1", ThisKey="col_id", OtherKey="Col_id")]
+		public EntitySet<Vehiculo> Vehiculo1
+		{
+			get
+			{
+				return this._Vehiculo1;
+			}
+			set
+			{
+				this._Vehiculo1.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -1804,6 +1857,18 @@ namespace AccesoDatos.ClassLibrary
 		{
 			this.SendPropertyChanging();
 			entity.Color = null;
+		}
+		
+		private void attach_Vehiculo1(Vehiculo entity)
+		{
+			this.SendPropertyChanging();
+			entity.Color1 = this;
+		}
+		
+		private void detach_Vehiculo1(Vehiculo entity)
+		{
+			this.SendPropertyChanging();
+			entity.Color1 = null;
 		}
 	}
 	

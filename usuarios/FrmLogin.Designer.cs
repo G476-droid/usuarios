@@ -61,8 +61,9 @@
             // 
             this.txtCorreo.Location = new System.Drawing.Point(148, 87);
             this.txtCorreo.Name = "txtCorreo";
-            this.txtCorreo.Size = new System.Drawing.Size(100, 20);
+            this.txtCorreo.Size = new System.Drawing.Size(185, 20);
             this.txtCorreo.TabIndex = 7;
+            this.txtCorreo.TextChanged += new System.EventHandler(this.txtCorreo_TextChanged);
             // 
             // txtClave
             // 

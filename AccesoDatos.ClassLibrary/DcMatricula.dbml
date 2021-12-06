@@ -42,6 +42,7 @@
       <Column Name="pai_id" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
       <Association Name="Clase_Vehiculo" Member="Clase" ThisKey="cla_id" OtherKey="cla_id" Type="Clase" IsForeignKey="true" />
       <Association Name="Color_Vehiculo" Member="Color" ThisKey="Col_id" OtherKey="col_id" Type="Color" IsForeignKey="true" />
+      <Association Name="Color_Vehiculo1" Member="Color1" ThisKey="Col_id" OtherKey="col_id" Type="Color" IsForeignKey="true" />
       <Association Name="Modelo_Vehiculo" Member="Modelo" ThisKey="modelo_id" OtherKey="modelo_id" Type="Modelo" IsForeignKey="true" />
       <Association Name="Pais_Vehiculo" Member="Pais" ThisKey="pais_id" OtherKey="pai_id" Type="Pais" IsForeignKey="true" />
       <Association Name="Pais_Vehiculo1" Member="Pais1" ThisKey="pai_id" OtherKey="pai_id" Type="Pais" IsForeignKey="true" />
@@ -68,6 +69,7 @@
       <Column Name="col_update" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="col_delete" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Association Name="Color_Vehiculo" Member="Vehiculo" ThisKey="col_id" OtherKey="Col_id" Type="Vehiculo" />
+      <Association Name="Color_Vehiculo1" Member="Vehiculo1" ThisKey="col_id" OtherKey="Col_id" Type="Vehiculo" />
     </Type>
   </Table>
   <Table Name="dbo.Discapacidad" Member="Discapacidad">

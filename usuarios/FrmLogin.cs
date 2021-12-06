@@ -52,7 +52,8 @@ namespace usuarios
 
                         Formularios.FrmPrincipal frmPrincipal = new Formularios.FrmPrincipal();
                         frmPrincipal.Show();
-                        //this.Hide();
+
+                       // this.Hide();
 
 
                     }
@@ -79,6 +80,11 @@ namespace usuarios
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void txtCorreo_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
