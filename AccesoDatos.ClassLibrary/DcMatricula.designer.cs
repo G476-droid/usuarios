@@ -4498,6 +4498,8 @@ namespace AccesoDatos.ClassLibrary
 		
 		private int _rol_id;
 		
+		private System.Nullable<int> _usu_intentos;
+		
 		private EntityRef<Rol> _Rol;
 		
     #region Definiciones de métodos de extensibilidad
@@ -4524,6 +4526,8 @@ namespace AccesoDatos.ClassLibrary
     partial void Onusu_deleteChanged();
     partial void Onrol_idChanging(int value);
     partial void Onrol_idChanged();
+    partial void Onusu_intentosChanging(System.Nullable<int> value);
+    partial void Onusu_intentosChanged();
     #endregion
 		
 		public Usuario()
@@ -4732,6 +4736,26 @@ namespace AccesoDatos.ClassLibrary
 					this._rol_id = value;
 					this.SendPropertyChanged("rol_id");
 					this.Onrol_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_usu_intentos", DbType="Int")]
+		public System.Nullable<int> usu_intentos
+		{
+			get
+			{
+				return this._usu_intentos;
+			}
+			set
+			{
+				if ((this._usu_intentos != value))
+				{
+					this.Onusu_intentosChanging(value);
+					this.SendPropertyChanging();
+					this._usu_intentos = value;
+					this.SendPropertyChanged("usu_intentos");
+					this.Onusu_intentosChanged();
 				}
 			}
 		}

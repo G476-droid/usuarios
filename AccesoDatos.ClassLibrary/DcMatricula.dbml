@@ -212,6 +212,7 @@
       <Column Name="usu_update" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="usu_delete" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="rol_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="usu_intentos" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Rol_Usuario" Member="Rol" ThisKey="rol_id" OtherKey="rol_id" Type="Rol" IsForeignKey="true" />
     </Type>
   </Table>
